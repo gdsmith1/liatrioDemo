@@ -16,21 +16,19 @@ jobs:
           run: docker build -t jstest .
         - name: Start Docker container
           run: docker run -p 80:80 --name myinstance -d jstest
+        - name: run tests
+          uses: liatrio/github-actions/apprentice-action@master
         - name: check container running
           run: |
                 docker ps
                 curl -v http://127.0.0.1:80
             
 
-    test:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-        - name: run tests
-          uses: liatrio/github-actions/apprentice-action@master
+
+        
 
     cleanup:
-        needs: test
+        needs: build
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v3
