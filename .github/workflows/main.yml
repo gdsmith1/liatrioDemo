@@ -15,25 +15,12 @@ jobs:
         - name: Build the Docker image
           run: docker build -t jstest .
 
-    run:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v3
         - name: Start Docker container
-          run: docker run -p 80:80 --name myinstance jstest
+          run: docker run -p 80:80 --name myinstance -d jstest
 
-    test:
-        needs: run
-        runs-on: ubuntu-latest
-        steps:
         - name: run tests
           uses: liatrio/github-actions/apprentice-action@master
 
-    cleanup:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v3
         - name: End Docker container
           run: |
                 docker stop myinstance
