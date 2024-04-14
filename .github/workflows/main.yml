@@ -19,6 +19,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         steps:
+        - uses: actions/checkout@v3
         - name: Start Docker container
           run: docker run -p 80:80 --name myinstance jstest
 
@@ -30,9 +31,9 @@ jobs:
           uses: liatrio/github-actions/apprentice-action@master
 
     cleanup:
-        needs: run
         runs-on: ubuntu-latest
         steps:
+        - uses: actions/checkout@v3
         - name: End Docker container
           run: |
                 docker stop myinstance
