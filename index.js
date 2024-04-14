@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
         message: "My name is Gibson",
         timestamp: new Date().getTime()
     };
-    res.json(data);
+    JSON.stringify(JSON.parse(data));
 });
 
 
