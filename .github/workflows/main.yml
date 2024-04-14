@@ -1,27 +1,36 @@
 name: Liatrio Apprentice Tests
 
 on:
-    workflow_run:
-        workflows:
-            - "Docker Image CI"
-        types:
-            - completed
+    push:
+      branches: [ "main" ]
+    pull_request:
+      branches: [ "main" ]
 
 jobs:
-    setup:
+
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: Build the Docker image
+          run: docker build -t jstest .
+
+    run:
+        needs: build
         runs-on: ubuntu-latest
         steps:
         - name: Start Docker container
           run: docker run -p 80:80 --name myinstance jstest
 
-    build:
-        needs: setup
+    test:
+        needs: run
         runs-on: ubuntu-latest
         steps:
         - name: run tests
           uses: liatrio/github-actions/apprentice-action@master
 
     cleanup:
+        needs: run
         runs-on: ubuntu-latest
         steps:
         - name: End Docker container
