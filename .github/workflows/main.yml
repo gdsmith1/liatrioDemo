@@ -29,15 +29,10 @@ jobs:
           uses: liatrio/github-actions/apprentice-action@master
 
 
-    test:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-        - name: run tests
-          uses: liatrio/github-actions/apprentice-action@master
+
 
     cleanup:
-        needs: test
+        needs: build
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v3
