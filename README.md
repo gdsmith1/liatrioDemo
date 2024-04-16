@@ -1,5 +1,5 @@
 # liatrioDemo
-[![Docker Image CI](https://github.com/gdsmith1/liatrioDemo/actions/workflows/docker-image.yml/badge.svg)](https://github.com/gdsmith1/liatrioDemo/actions/workflows/docker-image.yml)
+[![Liatrio Apprentice Tests](https://github.com/gdsmith1/liatrioDemo/actions/workflows/main.yml/badge.svg)](https://github.com/gdsmith1/liatrioDemo/actions/workflows/main.yml)
 
 Setting up node app (In environment with Node.js already installed):
 1) npm init 
