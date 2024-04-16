@@ -51,9 +51,26 @@ jobs:
                 curl -v http://127.0.0.1:80
 
         - name: run tests
-          uses: liatrio/github-actions/apprentice-action@master
+          uses: liatrio/github-actions/apprentice-action@v1.0.0
 
         - name: End Docker container
           run: |
                 docker stop myinstance
                 docker rm myinstance
+
+    upload:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+
+        - name: Download Docker image from artifacts
+          uses: actions/download-artifact@v2
+          with:
+            name: jstest
+            path: /tmp
+
+        - name: Load Docker image from tar file
+          run: docker load -i /tmp/jstest.tar
+
+        
