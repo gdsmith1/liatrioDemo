@@ -46,7 +46,7 @@ jobs:
 
         - name: check container running
           run: |
-                sleep 5
+                sleep 10 # time for container to start up
                 docker ps
                 curl -v http://127.0.0.1:80
 
