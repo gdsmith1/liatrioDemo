@@ -21,5 +21,5 @@ CI/CD with Github Actions
 5) after running the container, add a sleep to give the container time to start (can be picky about this, 10 seconds worked best for me)
 6) use a version tag when using a third-party action (Liatrio apprentice action) to ensure that new changes to the action don't affect your tests
 7) write github actions secrets to hold dockerhub username and token
-8) use docker login command with your secret values (use pipe and --password-stdin to pass in password)
+8) use docker's login action with your secret values
 8) push the image with docker push
