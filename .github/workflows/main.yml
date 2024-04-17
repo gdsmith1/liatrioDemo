@@ -2,7 +2,7 @@ name: Liatrio Apprentice Tests
 
 on:
     push:
-      branches: [ "main" ]
+      branches: [ "main", "docker-upload" ]
     pull_request:
       branches: [ "main" ]
 
@@ -11,18 +11,18 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
 
         - name: Build the Docker image
-          run: docker build -t jstest .
+          run: docker build -t gdsmith1/liatrio-demo .
         - name: Save Docker image to a tar file
-          run: docker save -o jstest.tar jstest
+          run: docker save -o liatriodemo.tar gdsmith1/liatrio-demo
 
         - name: Upload Docker image to artifacts
-          uses: actions/upload-artifact@v2
+          uses: actions/upload-artifact@v4
           with:
-            name: jstest
-            path: jstest.tar
+            name: gdsmith1/liatrio-demo
+            path: liatriodemo.tar
 
 
 
@@ -30,19 +30,19 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
 
         - name: Download Docker image from artifacts
-          uses: actions/download-artifact@v2
+          uses: actions/download-artifact@v4
           with:
-            name: jstest
+            name: gdsmith1/liatrio-demo
             path: /tmp
 
         - name: Load Docker image from tar file
-          run: docker load -i /tmp/jstest.tar
+          run: docker load -i /tmp/liatriodemo.tar
 
         - name: Start Docker container
-          run: docker run -p 80:80 --name myinstance -d jstest
+          run: docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo
 
         - name: check container running
           run: |
@@ -62,15 +62,19 @@ jobs:
         needs: test
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
 
         - name: Download Docker image from artifacts
-          uses: actions/download-artifact@v2
+          uses: actions/download-artifact@v4
           with:
-            name: jstest
+            name: gdsmith1/liatrio-demo
             path: /tmp
 
         - name: Load Docker image from tar file
-          run: docker load -i /tmp/jstest.tar
+          run: docker load -i /tmp/liatriodemo.tar
 
-        
+        - name: Docker login
+          run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+        - name: Push image
+          run: docker push gdsmith1/liatrio-demo
