@@ -40,4 +40,7 @@ echo \
 sudo apt-get update
 4) sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin (use sudo docker run hello-world to verify it worked)
 5) sudo docker pull gdsmith1/liatrio-demo:latest (use sudo to get to the group with permissions to use docker)
-6) sudo 
+6) sudo docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest
+7) visit the ip address with port 80 from your local browser to see the website is hosted
+
+Deployment Workflow

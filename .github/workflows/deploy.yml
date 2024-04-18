@@ -1,0 +1,22 @@
+name: Image Deployment
+
+on:
+  workflow_run:
+    workflows: ["Liatrio Apprentice Tests"]
+    types:
+      - completed
+  push:
+    branches:
+      - [ "docker-upload" ]
+
+jobs:
+  second_job:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+
+        - name: ssh into to server
+          run: |
+                ssh -i ${{ secrets.SSH_KEY }} ubuntu@${{ secrets.SSH_IP }} 
+                "docker pull gdsmith1/liatrio-demo && docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
+                

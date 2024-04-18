@@ -7,7 +7,8 @@ const port = 80;
 app.get('/', (req, res) => {
     const data = {
         message: "My name is Gibson",
-        timestamp: new Date().getTime()
+        timestamp: new Date().getTime(),
+        message2: "Hello world!"
     };
     res.send(JSON.stringify(data));
 });
