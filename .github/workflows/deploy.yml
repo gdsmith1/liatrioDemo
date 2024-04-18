@@ -14,7 +14,14 @@ jobs:
     steps:
         - uses: actions/checkout@v4
 
-        - name: ssh into to server
+        - name: update server
           run: |
-                ssh -i ${{ secrets.SSH_KEY }} ubuntu@${{ secrets.SSH_IP }} 
-                "docker pull gdsmith1/liatrio-demo && docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
+                echo "${{ secrets.SSH_KEY }}" > ssh_key.pem
+                chmod 400 ssh_key.pem
+                ssh -i ssh_key.pem ubuntu@${{ secrets.SSH_IP }} "docker pull gdsmith1/liatrio-demo && docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
+
+        - name: check container running
+          run: |
+                sleep 10 # time for container to start up
+                ssh -i ssh_key.pem ubuntu@${{ secrets.SSH_IP }} "docker ps"
+                curl -v http://${{ secrets.SSH_IP }}:80
