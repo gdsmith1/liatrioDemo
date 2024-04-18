@@ -9,8 +9,8 @@ Setting up node app (In environment with Node.js already installed):
 
 Setting up Docker Container
 1) write Dockerfile (import version image, pick working directory, copy necessary files for app into container, write commands to run)
-2) docker build -t jstest . (jsTest is the dockerhub repo we are working on)
-3) docker run -p 80:80 --name myinstance -d jstest (80 is the port we want to use, -d tells it to run in the background)
+2) docker build -t gdsmith1/liatrio-demo . (gdsmith1/liatrio-demo is the dockerhub repo we are working on)
+3) docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo (80 is the port we want to use, -d tells it to run in the background)
 4) docker stop myinstance
 
 CI/CD with Github Actions
@@ -23,3 +23,21 @@ CI/CD with Github Actions
 7) write github actions secrets to hold dockerhub username and token
 8) use docker's login action with your secret values
 8) push the image with docker push
+
+Cloud Deployment
+1) start a remote server instance (AWS)
+2) ssh -i liatrio-demo.pem ubuntu@52.53.149.36
+3) set up the docker's apt repository:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+4) sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin (use sudo docker run hello-world to verify it worked)
+5) sudo docker pull gdsmith1/liatrio-demo:latest (use sudo to get to the group with permissions to use docker)
+6) sudo 
