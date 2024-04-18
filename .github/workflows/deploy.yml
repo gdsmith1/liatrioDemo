@@ -14,12 +14,15 @@ jobs:
     steps:
         - uses: actions/checkout@v4
 
-        - name: update server
+        - name: prepare ssh key
           run: |
+                touch /home/runner/.ssh/known_hosts
                 echo "${{ secrets.SSH_KEY }}" > ssh_key.pem
                 chmod 400 ssh_key.pem
                 ssh-keyscan -H ${{ secrets.SSH_IP }} >> ~/.ssh/known_hosts
-                ssh  -i ssh_key.pem -o StrictHostKeyChecking=yes ubuntu@${{ secrets.SSH_IP }} "docker pull gdsmith1/liatrio-demo && docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
+
+        - name: update server
+          run: ssh  -i ssh_key.pem -o StrictHostKeyChecking=yes ubuntu@${{ secrets.SSH_IP }} "docker pull gdsmith1/liatrio-demo && docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
 
         - name: check container running
           run: |
