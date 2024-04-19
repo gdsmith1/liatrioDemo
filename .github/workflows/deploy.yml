@@ -15,8 +15,6 @@ jobs:
 
         - name: prepare ssh key
           run: |
-                docker stop myinstance
-                docker rm myinstance # temp fix for container already running
                 install -m 600 -D /dev/null ~/.ssh/id_rsa
                 echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
                 ssh-keyscan -H ${{ secrets.SSH_IP }} > ~/.ssh/known_hosts
