@@ -25,5 +25,8 @@ jobs:
         - name: check container running
           run: |
                 sleep 10 # time for container to start up
-                ssh ubuntu@${{ secrets.SSH_IP }} "docker ps"
+                ssh ubuntu@${{ secrets.SSH_IP }} "sudo docker ps"
                 curl -v http://${{ secrets.SSH_IP }}:80
+
+        - name: Cleanup ssh key
+          run: rm -rf ~/.ssh
