@@ -12,20 +12,21 @@ jobs:
   second_job:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v4
 
         - name: prepare ssh key
           run: |
-                touch /home/runner/.ssh/known_hosts
-                echo "${{ secrets.SSH_KEY }}" > ssh_key.pem
-                chmod 400 ssh_key.pem
-                ssh-keyscan -H ${{ secrets.SSH_IP }} >> ~/.ssh/known_hosts
+               install -m 600 -D /dev/null ~/.ssh/id_rsa
+               echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+               ssh-keyscan -H ${{ secrets.SSH_IP }} > ~/.ssh/known_hosts
 
         - name: update server
-          run: ssh  -i ssh_key.pem -o StrictHostKeyChecking=yes ubuntu@${{ secrets.SSH_IP }} "docker pull gdsmith1/liatrio-demo && docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
+          run: ssh  -i ssh_key.pem ubuntu@${{ secrets.SSH_IP }} "sudo docker pull gdsmith1/liatrio-demo && sudo docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
 
         - name: check container running
           run: |
                 sleep 10 # time for container to start up
                 ssh -i ssh_key.pem ubuntu@${{ secrets.SSH_IP }} "docker ps"
                 curl -v http://${{ secrets.SSH_IP }}:80
+
+        - name: cleanup
+          run: rm -rf ~/.ssh
