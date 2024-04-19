@@ -5,11 +5,9 @@ on:
     workflows: ["Liatrio Apprentice Tests"]
     types:
       - completed
-  push:
-    branches: [ "docker-upload" ]
 
 jobs:
-  second_job:
+  deploy:
     runs-on: ubuntu-latest
     steps:
 

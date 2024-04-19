@@ -1,5 +1,6 @@
 # liatrioDemo
 [![Liatrio Apprentice Tests](https://github.com/gdsmith1/liatrioDemo/actions/workflows/main.yml/badge.svg)](https://github.com/gdsmith1/liatrioDemo/actions/workflows/main.yml)
+[![Image Deployment](https://github.com/gdsmith1/liatrioDemo/actions/workflows/deploy.yml/badge.svg)](https://github.com/gdsmith1/liatrioDemo/actions/workflows/deploy.yml)
 
 Setting up node app (In environment with Node.js already installed):
 1) npm init 
@@ -29,18 +30,31 @@ Cloud Deployment
 2) ssh -i liatrio-demo.pem ubuntu@52.53.149.36
 3) set up the docker's apt repository:
 sudo apt-get update
+
 sudo apt-get install ca-certificates curl
+
 sudo install -m 0755 -d /etc/apt/keyrings
+
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+
 sudo chmod a+r /etc/apt/keyrings/docker.asc
+
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
 sudo apt-get update
+
 4) sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin (use sudo docker run hello-world to verify it worked)
 5) sudo docker pull gdsmith1/liatrio-demo:latest (use sudo to get to the group with permissions to use docker)
 6) sudo docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest
 7) visit the ip address with port 80 from your local browser to see the website is hosted
 
 Deployment Workflow
+1) make a new workflow file that runs a job after the testing workflow is completed succesfully
+2) add the pem key contents and server ip to secrets
+3) create ~/.ssh/id_rsa, add key value there and to ~/.ssh/known_hosts (recognizing the server as a friendly host without manual confirmation or need for a pem key)
+4) ssh into the server and call commands to stop and delete the current instance, pull the new version from the repo, then start a new instance of that version
+5) visit the ip address with port 80 to see the updated version live
