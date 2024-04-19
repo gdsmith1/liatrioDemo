@@ -20,7 +20,7 @@ jobs:
                 ssh-keyscan -H ${{ secrets.SSH_IP }} > ~/.ssh/known_hosts
 
         - name: update server
-          run: ssh  ubuntu@${{ secrets.SSH_IP }} "sudo docker pull gdsmith1/liatrio-demo && sudo docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
+          run: ssh  ubuntu@${{ secrets.SSH_IP }} "sudo docker stop myinstance && sudo docker rm myinstance && sudo docker pull gdsmith1/liatrio-demo && sudo docker run -p 80:80 --name myinstance -d gdsmith1/liatrio-demo:latest"
 
         - name: check container running
           run: |
