@@ -2,6 +2,10 @@
 [![Liatrio Apprentice Tests](https://github.com/gdsmith1/liatrioDemo/actions/workflows/main.yml/badge.svg)](https://github.com/gdsmith1/liatrioDemo/actions/workflows/main.yml)
 [![Image Deployment](https://github.com/gdsmith1/liatrioDemo/actions/workflows/deploy.yml/badge.svg)](https://github.com/gdsmith1/liatrioDemo/actions/workflows/deploy.yml)
 
+[DockerHub](https://hub.docker.com/repository/docker/gdsmith1/liatrio-demo/general)
+
+[AWS Server (live 4/19)](http://52.53.149.36/)
+
 Setting up node app (In environment with Node.js already installed):
 1) npm init 
 2) npm install express
