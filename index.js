@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
         message: "My name is Gibson",
         timestamp: new Date().getTime(),
         message2: "Hello world!",
-        message3: "Live testing..."
+        message3: "foobar"
     };
     res.send(JSON.stringify(data));
 });
