@@ -8,7 +8,8 @@ app.get('/', (req, res) => {
     const data = {
         message: "My name is Gibson",
         timestamp: new Date().getTime(),
-        message2: "Hello world!"
+        message2: "Hello world!",
+        message3: "Live testing..."
     };
     res.send(JSON.stringify(data));
 });
